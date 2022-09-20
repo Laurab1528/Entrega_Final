@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Producto = require("../classes/Producto");
-const ADMIN = false;
+const ADMIN = true;
 
 
 router.get("/:id?", async (req, res) => {
@@ -27,7 +27,7 @@ router.get("/:id?", async (req, res) => {
 
 // POST /api/productos/
 router.post("/", async (req, res) => {
-  if (ADMIN === true) {
+  if (ADMIN) {
     const newProduct = req.body;
     if (
       Object.entries(newProduct).length === 0 ||
@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
 
 // PUT /api/productos/:id
 router.put("/:id", async (req, res) => {
-  if (ADMIN === true) {
+  if (ADMIN) {
     const { id } = req.params;
     let newProduct = req.body;
     const data = await Producto.getAllProducts();
@@ -77,7 +77,7 @@ router.put("/:id", async (req, res) => {
 
 // DELETE /api/productos/:id
 router.delete("/:id", async (req, res) => {
-  if (ADMIN === true) {
+  if (ADMIN) {
     const { id } = req.params;
     if ((await Producto.deleteProductById(id)) === false) {
       res.status(404).send({ error: "No se encontró el producto." });
